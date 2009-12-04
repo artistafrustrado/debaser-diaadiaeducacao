@@ -15,6 +15,7 @@ Clique no título do arquivo para ler sua descrição. Caso você queira assistir ao
 	background-color: white;
 	border: 1px solid black;
 	visibility: hidden;
+	padding: 10px;
 }
 
 #radio {
@@ -34,6 +35,18 @@ Clique no título do arquivo para ler sua descrição. Caso você queira assistir ao
 #tv_fechar
 {
 	cursor: pointer;
+	background-color: black;
+	color: white;
+	font-weight: bold;
+	display: box;
+	width: 150px;
+	float: right;
+	text-align: center;
+}
+
+#tv_fechar:hover
+{
+	background-color: red;
 }
 </style>
 
@@ -47,6 +60,8 @@ function esconderTv()
 {
 	var tv = document.getElementById("tv");
 	tv.style.visibility = "hidden";
+	var video = document.getElementById("video");
+	video.innerHTML = '';
 }
 
 function esconderRadio()

@@ -47,20 +47,7 @@ if (isset($_GET['genreid'])) {
 if (isset($_GET['letter'])) {
 	$letter = $_GET['letter'];
 }
-/*	
-	$sql2 = "
-	SELECT d.xfid, d.added, d.filename, d.artist, d.title, d.album, d.year, d.addinfo, d.track, d.genre, d.length, d.bitrate, d.link, d.frequence, d.approved, d.weight, d.hits, d.views, t.genreid, t.genretitle
-	FROM ".$xoopsDB->prefix('debaser_files')." d, ".$xoopsDB->prefix('debaser_genre')." t
-	WHERE t.genreid='".$_GET['genreid']."'
-	";
-	if(!empty($letter))
-	$sql2 .= "AND UCASE(d.title) like '".$letter."%'"; 
 
-	$sql2 .= " AND d.genre=t.genretitle
-	AND d.approved = 1
-	ORDER BY ".$xoopsModuleConfig['index_sortby'].' '.$xoopsModuleConfig['index_orderby']." ";
-
- */
 if(!empty($letter)){
 	$sql2 = " SELECT d.xfid, d.added, d.filename, d.fileext, d.artist, d.title, d.album, d.year, d.addinfo, d.track, d.genre, d.length, d.bitrate, d.link, d.frequence, d.approved, d.weight, d.hits, d.views, t.genreid, t.genretitle
 		FROM ".$xoopsDB->prefix('debaser_files')." d, ".$xoopsDB->prefix('debaser_genre')." t WHERE t.genreid='".$_GET['genreid']."' AND UCASE(d.title) like '".$letter."%'  AND d.genre=t.genretitle  AND d.approved = 1 
@@ -72,7 +59,6 @@ else{
 		ORDER BY ".$xoopsModuleConfig['index_sortby'].' '.$xoopsModuleConfig['index_orderby']." ";
 }
 
-echo $sql2;
 
 
 $resultarts = $xoopsDB -> query($sql2);
@@ -133,7 +119,6 @@ while ($sqlfetch = $xoopsDB->fetchArray($result)) {
 			if(in_array(strtolower($filelist['fileext']), $videos))
 			{
 				$filelist['file_type'] = "video";
-				echo "<h1>{$filelist['file_type']}</h1>\n";
 			} else {
 				$filelist['file_type'] = "audio";
 			}
@@ -173,13 +158,8 @@ while ($sqlfetch = $xoopsDB->fetchArray($result)) {
 		if(in_array(strtolower($filelist['fileext']), $videos))
 		{
 			$filelist['file_type'] = "video";
-#			$filelist['win_width'] = "450";
-#			$filelist['win_height'] = "350";
-			echo "<h1>{$filelist['file_type']}</h1>\n";
 		} else {
 			$filelist['file_type'] = "audio";
-#			$filelist['win_width'] = "450";
-#			$filelist['win_height'] = "100";
 		}
 		$xoopsTpl->append('filelist', $filelist);
 
