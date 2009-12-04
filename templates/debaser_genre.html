@@ -1,0 +1,238 @@
+<div class="blockTitle">Arquivos da Categoria</div><br />
+Clique no título do arquivo para ler sua descrição. Caso você queira assistir ao vídeo antes de baixá-lo clique no ícone <img src="http://www.diaadia.pr.gov.br/tvpendrive/modules/debaser/images/play.gif" /> e para baixar o arquivo para o seu computador ou pendrive clique em <img src="http://www.diaadia.pr.gov.br/tvpendrive/modules/debaser/images/hits.gif"/>. <br /><br />
+<script type="text/javascript" src="codigos_tvs/swfobject.js"></script>
+
+<style>
+#tv {
+	width:450px;
+	height: 350px;
+	position:absolute;
+	position:fixed;
+	top:50%;
+	left:50%;
+	margin-top:-175px;
+	margin-left:-225px;
+	background-color: white;
+	border: 1px solid black;
+	visibility: hidden;
+}
+
+#radio {
+	width:400px;
+	height: 60px;
+	position:absolute;
+	position:fixed;
+	top:50%;
+	left:50%;
+	margin-top:-30px;
+	margin-left:-200px;
+	background-color: white;
+	border: 1px solid black;
+	visibility: hidden;
+}
+
+#tv_fechar
+{
+	cursor: pointer;
+}
+</style>
+
+<script type="text/javascript">
+	function openDownload(url) {
+		document.download.url.value = url;
+		document.download.submit();
+    }
+
+function esconderTv()
+{
+	var tv = document.getElementById("tv");
+	tv.style.visibility = "hidden";
+}
+
+function esconderRadio()
+{
+	var radio = document.getElementById("radio");
+	radio.style.visibility = "hidden";
+}
+
+function mostrarTocador(id, link, filetype)
+{
+	if(filetype == 'audio')
+	{	
+		mostrarRadio(id, link);
+	}
+	else
+	{
+		mostrarTv(id, link);
+	}
+}
+
+function mostrarRadio(id, link)
+{
+	var radio = document.getElementById("radio");
+	radio.style.visibility = "visible";
+	
+}
+
+function mostrarTv(id, link)
+{
+	var tv = document.getElementById("tv");
+
+	var so = new SWFObject('codigos_tvs/player.swf','mpl','445','327','8');
+	so.addParam('allowscriptaccess','always');
+	so.addParam('allowfullscreen','true');
+	so.addVariable('height','260');
+	so.addVariable('width','780');
+	so.addVariable('video', link);
+	so.addVariable('backcolor','0x3659b0');
+	so.addVariable('frontcolor','0xffffff');
+	so.addVariable('lightcolor','0x909db9');
+	so.addVariable('displayheight','245');
+	so.addVariable('displaywidth','325');
+	so.addVariable('searchbar','false');
+	so.addVariable('shuffle','false');
+	so.write('video');
+	tv.style.visibility = "visible";
+}
+</script>
+
+<div id="tv">
+<div id="video"></div>
+<div id="tv_fechar" onClick="javascript:esconderTv();">fechar</div>
+</div>
+
+<div id="radio">
+<div id="audio">
+<object type="application/x-shockwave-flash" data="dewplayer.swf" width="200" height="20">
+<param name="movie" id="obj_param_movie" value="dewplayer.swf?mp3=" />
+<param name="flashvars" id="obj_param_flashvars" value="mp3=test.mp3" />
+</object>
+</div>
+<div id="tv_fechar" onClick="javascript:esconderRadio();">fechar</div>
+</div>
+
+<form name="download" id="download" action="<{$xoops_url}>/modules/debaser/download.php" method="post">
+<input type="hidden" name="url" value="">
+</form>
+
+<div><a href="index.php"><{$smarty.const._MD_DEBASER_INDEX}></a> - <{$smarty.const._MD_DEBASER_GENRE}> <{$genrelist}>: [ <strong><{$category.total}></strong> Arquivos ]</div><br />
+
+<div style="text-align:right; width:100%"><{$category.navbar}></div>
+<table width="100%" cellpadding="1" cellspacing="0">
+<{section name=i loop=$filelist}>
+
+<td colspan="1">
+<div align="left" style="float:left;">
+<a href="javascript:mostrarTocador('<{$filelist[i].id}>','<{$filelist[i].link}>','<{$filelist[i].file_type}>');"><img src="<{$xoops_url}>/modules/debaser/images/<{$filelist[i].play_file}>" title="<{$smarty.const._MD_DEBASER_PLAY}>" alt="<{$smarty.const._MD_DEBASER_PLAY}>;" align="absmiddle" /></a>
+<strong><a href="singlefile.php?id=<{$filelist[i].id}>"<{if $usetooltips == true}>onmouseover="ddrivetip('<strong><{$filelist[i].title}><br />
+<br>
+
+</strong><{if $filelist[i].album > 0 || $filelist[i].album != ''}><{$smarty.const._MD_DEBASER_ALBUM}> <{$filelist[i].album}><br />
+<{/if}><{if $filelist[i].year > 0}><{$smarty.const._MD_DEBASER_YEAR}> <{$filelist[i].year}><br />
+<{/if}><{if $filelist[i].addinfo > 0}><{$smarty.const._MD_DEBASER_COMMENT}> <{$filelist[i].addinfo}><br />
+<{/if}><{if $filelist[i].track > 0}><{$smarty.const._MD_DEBASER_TRACK}> <{$filelist[i].track}><br />
+<{/if}><{$smarty.const._MD_DEBASER_LENGTH}> <{$filelist[i].length}><br />
+<{$smarty.const._MD_DEBASER_BITRATE}> <{$filelist[i].bitrate}><br />
+<{$smarty.const._MD_DEBASER_FREQUENCY}> <{$filelist[i].frequence}><br>
+<{$smarty.const._MD_DEBASER_READMORE}>','lightgrey', 200)"; onmouseout="hideddrivetip()"<{/if}>><{$filelist[i].title}></a></strong> (<{$smarty.const._MD_DEBASER_ADDED}> <{$filelist[i].added}>)</div>
+<div align="right">
+
+<div style="float:right; width:120px; height:25px">
+<div style="width:65px; float:left; ">
+
+<img src="<{$xoops_url}>/modules/debaser/images/views.gif" title="<{$smarty.const._MD_DEBASER_VIEWS}>" alt="<{$smarty.const._MD_DEBASER_VIEWS}>" align="right" />&nbsp;&nbsp;<strong><{$filelist[i].views}></strong><{if $allowyes == true}>&nbsp;&nbsp;<{if $filelist[i].link != ''}>
+<a href="javascript:openDownload('<{$filelist[i].link}>?<{$filelist[i].id}>');"><{else}><a href="javascript:openWithSelfMain('<{$xoops_url}>/modules/debaser/getfile.php?id=<{$filelist[i].id}>','Download',320,240)"><{/if}>
+</div>
+
+<div style="width:65px; float:left; ">
+<img src="<{$xoops_url}>/modules/debaser/images/hits.gif" alt="<{$smarty.const._MD_DEBASER_HITS}>" border="0" align="right" title="<{$smarty.const._MD_DEBASER_HITS}>" /></a>&nbsp;<strong><{$filelist[i].hits}></strong><{/if}>
+</div>
+</div>
+
+
+<{if $isxadmin == true}>
+&nbsp;&nbsp;<a href="<{$xoops_url}>/modules/debaser/admin/index.php?op=editmpegs&amp;mpegid=<{$filelist[i].id}>"><img src="<{$xoops_url}>/modules/debaser/images/edit2.gif" alt="<{$smarty.const._MD_DEBASER_EDIT}>" align="middle" /></a>&nbsp;&nbsp;
+<a href="<{$xoops_url}>/modules/debaser/admin/index.php?op=deletesong&amp;mpegid=<{$filelist[i].id}>&amp;delfile=<{$filelist[i].filename}>"><img src="<{$xoops_url}>/modules/debaser/images/delete2.gif" alt="<{$smarty.const._DELETE}>" align="middle" /></a>
+<{/if}>	</div><hr></td></tr>
+
+<{/section}>
+</table>
+<div style="text-align:right; width:100%"><{$category.navbar}></div>
+<{if $xoops_notification.show}>
+<{include file='db:system_notification_select.html'}>
+<{/if}>
+<{if $usetooltips == true}>
+<div id="dhtmltooltip" style="position: absolute; width: 150px; border: 2px solid black; padding: 2px; background-color: yellow; visibility: hidden; z-index: 100; filter: progid:DXImageTransform.Microsoft.Shadow(color=gray,direction=135);"></div>
+
+<script type="text/javascript">
+/***********************************************
+ * Cool DHTML tooltip script- © Dynamic Drive DHTML code library (www.dynamicdrive.com)
+ * This notice MUST stay intact for legal use
+ * Visit Dynamic Drive at http://www.dynamicdrive.com/ for full source code
+ ***********************************************/
+
+var offsetxpoint=-60 //Customize x offset of tooltip
+var offsetypoint=20 //Customize y offset of tooltip
+var ie=document.all
+var ns6=document.getElementById && !document.all
+	var enabletip=false
+if (ie||ns6)
+	var tipobj=document.all? document.all["dhtmltooltip"] : document.getElementById? document.getElementById("dhtmltooltip") : ""
+
+	function ietruebody(){
+		return (document.compatMode && document.compatMode!="BackCompat")? document.documentElement : document.body
+	}
+
+function ddrivetip(thetext, thecolor, thewidth){
+	if (ns6||ie){
+		if (typeof thewidth!="undefined") tipobj.style.width=thewidth+"px"
+			if (typeof thecolor!="undefined" && thecolor!="") tipobj.style.backgroundColor=thecolor
+				tipobj.innerHTML=thetext
+					enabletip=true
+					return false
+	}
+}
+
+function positiontip(e){
+	if (enabletip){
+		var curX=(ns6)?e.pageX : event.x+ietruebody().scrollLeft;
+		var curY=(ns6)?e.pageY : event.y+ietruebody().scrollTop;
+		//Find out how close the mouse is to the corner of the window
+		var rightedge=ie&&!window.opera? ietruebody().clientWidth-event.clientX-offsetxpoint : window.innerWidth-e.clientX-offsetxpoint-20
+			var bottomedge=ie&&!window.opera? ietruebody().clientHeight-event.clientY-offsetypoint : window.innerHeight-e.clientY-offsetypoint-20
+
+			var leftedge=(offsetxpoint<0)? offsetxpoint*(-1) : -1000
+
+			//if the horizontal distance isn't enough to accomodate the width of the context menu
+			if (rightedge<tipobj.offsetWidth)
+				//move the horizontal position of the menu to the left by it's width
+				tipobj.style.left=ie? ietruebody().scrollLeft+event.clientX-tipobj.offsetWidth+"px" : window.pageXOffset+e.clientX-tipobj.offsetWidth+"px"
+			else if (curX<leftedge)
+				tipobj.style.left="5px"
+			else
+				//position the horizontal position of the menu where the mouse is positioned
+				tipobj.style.left=curX+offsetxpoint+"px"
+
+					//same concept with the vertical position
+					if (bottomedge<tipobj.offsetHeight)
+						tipobj.style.top=ie? ietruebody().scrollTop+event.clientY-tipobj.offsetHeight-offsetypoint+"px" : window.pageYOffset+e.clientY-tipobj.offsetHeight-offsetypoint+"px"
+					else
+						tipobj.style.top=curY+offsetypoint+"px"
+							tipobj.style.visibility="visible"
+	}
+}
+
+function hideddrivetip(){
+	if (ns6||ie){
+		enabletip=false
+			tipobj.style.visibility="hidden"
+			tipobj.style.left="-1000px"
+			tipobj.style.backgroundColor=''
+			tipobj.style.width=''
+	}
+}
+
+document.onmousemove=positiontip
+
+</script>
+<{/if}>

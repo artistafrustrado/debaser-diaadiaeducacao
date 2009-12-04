@@ -1,0 +1,33 @@
+<div class='blockTitle'>Categorias de Mídia</div><br />
+<{if count($categories) gt 0}> 
+	<table border="0" cellspacing="2" cellpadding="0" align="center" width='100%'>
+		<tr>
+			<!-- Start category loop -->
+			<{foreach item=category from=$categories}>
+			<{if $category.image != ''}>
+			<td width="1%" align="center" valign="top">
+					<a href="<{$xoops_url}>/modules/debaser/genre.php?genreid=<{$category.id}>">
+					
+					<img src="<{$category.image}>" alt="<{$category.alttext}>" align="middle" /></a>
+    		</td>
+			<{/if}>
+    		<td valign="middle">
+						<strong><a href="<{$xoops_url}>/modules/debaser/genre.php?genreid=<{$category.id}>"><{$category.title}></a>&nbsp;[<{$category.totaldownloads}>]<br /></strong>			
+						<{if $category.subcategories}>
+							<div style="margin-bottom: 3px;"><small><{$category.subcategories}></small></div>
+							
+    					<{/if}>
+			</td>
+    		<{if $category.count is div by 4}>
+	  </tr><tr>
+    		<{/if}>
+		<{/foreach}>
+  	<!-- End category loop -->
+</tr>
+</table>
+<br />
+<{/if}> 
+<br />
+<{if $xoops_notification.show}>
+<{include file="db:system_notification_select.html"}>
+<{/if}>

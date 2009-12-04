@@ -1,0 +1,16 @@
+Correções
+
+
+-> Correções Do Banco de Dados
+-> Download Em janela javascript
+-> Correção em templates
+-> Correção em uploads
+-> Filetype Para Som Mid Adicionado
+-> Tradução Para Portugues , Portuguesebr, portugues.do.brasil.
+-> Icones Administrativos 
+
+mais erros:
+
+mimetype mpeg tem que renomeiar para mpg na administração e na pasta
+
+C:\apache2triad\htdocs\modules\debaser\class\getid3\
