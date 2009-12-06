@@ -25,69 +25,126 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
 
-	include '../../mainfile.php';
+include '../../mainfile.php';
 
-	$xoopsOption['template_main'] = 'debaser_singlefile.html';
+$xoopsOption['template_main'] = 'debaser_singlefile.html';
 
-	include XOOPS_ROOT_PATH.'/header.php';
+include XOOPS_ROOT_PATH.'/header.php';
 
-	$myts =& MyTextSanitizer::getInstance();
+function construir_tocador_mp3($link)
+{
+	$buffer = "";
 
-		if (isset($_GET['id'])) {
-		$id = $_GET['id'];
-		}
+	$buffer .= '<object type="application/x-shockwave-flash" data="dewplayer.swf" width="200" height="20">'."\n";
+	$buffer .= '<param name="movie" value="dewplayer.swf?mp3=' . $link . '" />'."\n";
+	$buffer .= '<param name="flashvars" value="mp3='.$link.'" />'."\n";
+	$buffer .= "</object>\n";
+	return $buffer;
 
-	$ratesong = array();
+}
 
-	$sql = "
-	SELECT d.xfid, d.added, d.filename, d.artist, d.title, d.album, d.year, d.addinfo, d.track, d.genre, d.length, d.bitrate, d.link, d.frequence, d.rating, d.votes, d.approved, d.hits, d.views, t.genreid, t.genretitle
-	FROM ".$xoopsDB->prefix('debaser_files')." d, ".$xoopsDB->prefix('debaser_genre')." t
-	WHERE d.xfid = ".intval($id)."
-	AND d.approved = 1
-	AND d.genre = t.genretitle";
+function construir_tocador_flv($link)
+{
+	$buffer = "";
 
-	$result = $xoopsDB->query($sql);
+	$pathparts = pathinfo($link);
+	$fileext = $pathparts['extension'];
 
-	list($id, $added, $filename, $artist, $title, $album, $year, $addinfo, $track, $genre, $length, $bitrate, $link, $frequence, $rating, $votes, $approved, $hits, $views, $genreid, $genretitle) = $xoopsDB->fetchRow($result);
+	$link = str_replace(strtolower($fileext), 'flv', $link);
 
-	$xoopsDB->queryF("
-	UPDATE ".$xoopsDB->prefix('debaser_files')." 
-	SET views = views+1 
-	WHERE xfid = ".$id."");
-	$addinfo = stripslashes ($addinfo);
-	$title = stripslashes ($title);
-	$dataAux = getDate($added);
-	$added = $dataAux['mday'].'/'.$dataAux['mon'].'/'.$dataAux['year'];
-	$xoopsTpl->assign(array('id' => $id, 'added' => $added, 'filename' => $filename, 'artist' => $artist, 'title' => $title, 'album' => $album, 'year' => $year, 'addinfo' => $myts->displayTarea($addinfo, 1, 1, 1, 1, 0), 'track' => $track, 'genre' => $genre, 'length' => $length, 'bitrate' => $bitrate, 'link' => $link, 'frequence' => $frequence, 'genreid' => $genreid, 'hits' => $hits, 'views' => $views));
+	#$link = "http://10.74.50.108/~fernando/videos/alive.flv";
+	$link = "http://10.1.1.10/~fernando/every_six_minutes.flv";
 
-		if ($rating != 0.0000) {
-		$ratesong['rating'] = ""._MD_DEBASER_RATING.": " .$myts->stripSlashesGPC(number_format( $rating, 2));
-		$ratesong['votes'] = ""._MD_DEBASER_VOTES.": " .$myts->stripSlashesGPC($votes);
-		}
-		else {
-		$ratesong['rating'] = _MD_DEBASER_NOTRATED;
-		}
+	$buffer .=  "<div id=\"video\" >Video</div>\n";
+	$buffer .= "<script type=\"text/javascript\">\n";
+	$buffer .= "var so = new SWFObject('codigos_tvs/player.swf','mpl','445','327','8');\n";
+	$buffer .= "so.addParam('allowscriptaccess','always');\n";
+	$buffer .= "so.addParam('allowfullscreen','true');\n";
+	$buffer .= "so.addVariable('height','260');\n";
+	$buffer .= "so.addVariable('width','780');\n";
+	$buffer .= "so.addVariable('video','{$link}');\n";
+	$buffer .= "so.addVariable('backcolor','#F7F7F7');\n";
+	$buffer .= "so.addVariable('frontcolor','0xffffff');\n";
+	$buffer .= "so.addVariable('lightcolor','0x909db9');\n";
+	$buffer .= "so.addVariable('displayheight','245');\n";
+	$buffer .= "so.addVariable('displaywidth','325');\n";
+	$buffer .= "so.addVariable('searchbar','false');\n";
+	$buffer .= "so.addVariable('shuffle','false');\n";
+	$buffer .= "so.write('video');\n";
+	$buffer .= "</script>\n";
 
-		if($xoopsUser) {
-		$xoopsModule = XoopsModule::getByDirname('debaser');
+	return $buffer;
+}
 
-			if ( $xoopsUser->isAdmin($xoopsModule->mid()) ) {
-			$xoopsTpl->assign('isxadmin', true);
-			}
-		}
-		$xoopsTpl->assign('lang_comments' , _COMMENTS);
-		$xoopsTpl->assign('ratesong', $ratesong);
+$myts =& MyTextSanitizer::getInstance();
 
-		if ($xoopsModuleConfig['guestvote'] == 1) $xoopsTpl->assign('guestvote', true);
-		if ($xoopsUser) $xoopsTpl->assign('guestvote', true);
+if (isset($_GET['id'])) {
+	$id = $_GET['id'];
+}
 
-	/* determine if downloads are allowed or if download is a link */
-		if ($xoopsModuleConfig['debaserallowdown'] == 1) {
-		$xoopsTpl->assign("allowyes", true);
-		}
+$ratesong = array();
 
-	include XOOPS_ROOT_PATH.'/include/comment_view.php';
+$sql = "
+SELECT d.xfid, d.added, d.filename, d.fileext, d.artist, d.title, d.album, d.year, d.addinfo, d.track, d.genre, d.length, d.bitrate, d.link, d.frequence, d.rating, d.votes, d.approved, d.hits, d.views, t.genreid, t.genretitle
+FROM ".$xoopsDB->prefix('debaser_files')." d, ".$xoopsDB->prefix('debaser_genre')." t
+WHERE d.xfid = ".intval($id)."
+AND d.approved = 1
+AND d.genre = t.genretitle";
 
-	include_once XOOPS_ROOT_PATH.'/footer.php';
+$result = $xoopsDB->query($sql);
+
+list($id, $added, $filename, $fileext, $artist, $title, $album, $year, $addinfo, $track, $genre, $length, $bitrate, $link, $frequence, $rating, $votes, $approved, $hits, $views, $genreid, $genretitle) = $xoopsDB->fetchRow($result);
+
+$videos = array("mpg","mpeg","avi","divx","mp4");
+if(in_array($fileext, $videos))
+{
+	$tocador = construir_tocador_flv($link);
+} else {
+	$tocador = construir_tocador_mp3($link);
+}
+$play_file = "play.gif";
+
+$xoopsDB->queryF("
+		UPDATE ".$xoopsDB->prefix('debaser_files')." 
+		SET views = views+1 
+		WHERE xfid = ".$id."");
+$addinfo = stripslashes ($addinfo);
+$title = stripslashes ($title);
+$dataAux = getDate($added);
+$added = $dataAux['mday'].'/'.$dataAux['mon'].'/'.$dataAux['year'];
+
+
+
+$xoopsTpl->assign(array('id' => $id, 'added' => $added, 'filename' => $filename, 'artist' => $artist, 'title' => $title, 'album' => $album, 'year' => $year, 'addinfo' => $myts->displayTarea($addinfo, 1, 1, 1, 1, 0), 'track' => $track, 'genre' => $genre, 'length' => $length, 'bitrate' => $bitrate, 'link' => $link, 'frequence' => $frequence, 'genreid' => $genreid, 'hits' => $hits, 'views' => $views, 'win_width' => $win_width, 'win_height' => $win_height, 'play_file' => $play_file, 'tocador' => $tocador));
+
+if ($rating != 0.0000) {
+	$ratesong['rating'] = ""._MD_DEBASER_RATING.": " .$myts->stripSlashesGPC(number_format( $rating, 2));
+	$ratesong['votes'] = ""._MD_DEBASER_VOTES.": " .$myts->stripSlashesGPC($votes);
+}
+else {
+	$ratesong['rating'] = _MD_DEBASER_NOTRATED;
+}
+
+if($xoopsUser) {
+	$xoopsModule = XoopsModule::getByDirname('debaser');
+
+	if ( $xoopsUser->isAdmin($xoopsModule->mid()) ) {
+		$xoopsTpl->assign('isxadmin', true);
+	}
+}
+$xoopsTpl->assign('lang_comments' , _COMMENTS);
+$xoopsTpl->assign('ratesong', $ratesong);
+
+if ($xoopsModuleConfig['guestvote'] == 1) $xoopsTpl->assign('guestvote', true);
+if ($xoopsUser) $xoopsTpl->assign('guestvote', true);
+
+/* determine if downloads are allowed or if download is a link */
+if ($xoopsModuleConfig['debaserallowdown'] == 1) {
+	$xoopsTpl->assign("allowyes", true);
+}
+
+include XOOPS_ROOT_PATH.'/include/comment_view.php';
+
+include_once XOOPS_ROOT_PATH.'/footer.php';
 
 ?>

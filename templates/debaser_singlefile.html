@@ -1,5 +1,5 @@
 <div><a href="index.php"><{$smarty.const._MD_DEBASER_INDEX}></a> - <a href="genre.php?genreid=<{$genreid}>"><{$smarty.const._MD_DEBASER_GENRE}> <{$genre}></a></div><br />
-
+<script type="text/javascript" src="codigos_tvs/swfobject.js"></script>
 <script type="text/javascript">
 	function openDownload(url) {
 		document.download.url.value = url;
@@ -51,7 +51,7 @@
 <tr>
 <td class="even" colspan="2">
 <div align="left" style="float:left;">
-<a href="javascript:openWithSelfMain('<{$xoops_url}>/modules/debaser/player.php?id=<{$id}>','player',500,420)"><img src="<{$xoops_url}>/modules/debaser/images/play.gif" title="<{$smarty.const._MD_DEBASER_PLAY}>" alt="<{$smarty.const._MD_DEBASER_PLAY}>" align="middle" /></a>
+<{$tocador}>
 </div>
 <div align="right">
 <img src="<{$xoops_url}>/modules/debaser/images/views.gif" title="<{$smarty.const._MD_DEBASER_VIEWS}>" alt="<{$smarty.const._MD_DEBASER_VIEWS}>" align="middle" />&nbsp;<strong><{$views}></strong><{if $allowyes == true}>&nbsp;<{if $link != ''}>

@@ -85,6 +85,7 @@ echo('<br><br>');
 
 
 $filelist = array();
+$videos = array("mpg","mpeg","avi","divx","mp4");
 
 while ($sqlfetch = $xoopsDB->fetchArray($result)) {
 
@@ -112,7 +113,6 @@ while ($sqlfetch = $xoopsDB->fetchArray($result)) {
 			$filelist['views'] = $sqlfetch['views'];
 			$filelist['play_file'] = "play.gif";
 			$filelist['fileext'] = $sqlfetch['fileext'];
-			$videos = array("mpg","mpeg","avi","divx","mp4");
 			
 			$filelist['link'] = str_replace(strtolower($filelist['fileext']), 'flv', $filelist['link']);
 
@@ -150,7 +150,6 @@ while ($sqlfetch = $xoopsDB->fetchArray($result)) {
 		$filelist['play_file'] = "play.gif";
 		$filelist['fileext'] = $sqlfetch['fileext'];
 
-		$videos = array("mpg","mpeg","avi","divx","mp4");
 		$filelist['link'] = str_replace(strtolower($filelist['fileext']), 'flv', $filelist['link']);
 		
 		$filelist['link'] = "http://10.1.1.10/~fernando/every_six_minutes.flv";
