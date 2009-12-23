@@ -151,8 +151,6 @@ while ($sqlfetch = $xoopsDB->fetchArray($result)) {
 		$filelist['fileext'] = $sqlfetch['fileext'];
 
 		$filelist['link'] = str_replace(strtolower($filelist['fileext']), 'flv', $filelist['link']);
-		
-		$filelist['link'] = "http://10.1.1.10/~fernando/every_six_minutes.flv";
 
 		if(in_array(strtolower($filelist['fileext']), $videos))
 		{
@@ -165,7 +163,10 @@ while ($sqlfetch = $xoopsDB->fetchArray($result)) {
 		$totalarts++;
 	}
 }
-
+if(!isset($letter))
+{
+  $letter = "";
+}
 $pagenav = new XoopsPageNav( $category['total'], $xoopsModuleConfig['indexperpage'], $start, 'start', 'genreid=' . $genrelist ,'letter=' . $letter);
 $category['navbar'] = $pagenav -> renderNav(2);
 
