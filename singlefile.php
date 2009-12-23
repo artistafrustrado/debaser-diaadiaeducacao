@@ -52,9 +52,6 @@ function construir_tocador_flv($link)
 
 	$link = str_replace(strtolower($fileext), 'flv', $link);
 
-	#$link = "http://10.74.50.108/~fernando/videos/alive.flv";
-	$link = "http://10.1.1.10/~fernando/every_six_minutes.flv";
-
 	$buffer .=  "<div id=\"video\" >Video</div>\n";
 	$buffer .= "<script type=\"text/javascript\">\n";
 	$buffer .= "var so = new SWFObject('codigos_tvs/player.swf','mpl','445','327','8');\n";
@@ -115,7 +112,7 @@ $added = $dataAux['mday'].'/'.$dataAux['mon'].'/'.$dataAux['year'];
 
 
 
-$xoopsTpl->assign(array('id' => $id, 'added' => $added, 'filename' => $filename, 'artist' => $artist, 'title' => $title, 'album' => $album, 'year' => $year, 'addinfo' => $myts->displayTarea($addinfo, 1, 1, 1, 1, 0), 'track' => $track, 'genre' => $genre, 'length' => $length, 'bitrate' => $bitrate, 'link' => $link, 'frequence' => $frequence, 'genreid' => $genreid, 'hits' => $hits, 'views' => $views, 'win_width' => $win_width, 'win_height' => $win_height, 'play_file' => $play_file, 'tocador' => $tocador));
+$xoopsTpl->assign(array('id' => $id, 'added' => $added, 'filename' => $filename, 'artist' => $artist, 'title' => $title, 'album' => $album, 'year' => $year, 'addinfo' => $myts->displayTarea($addinfo, 1, 1, 1, 1, 0), 'track' => $track, 'genre' => $genre, 'length' => $length, 'bitrate' => $bitrate, 'link' => $link, 'frequence' => $frequence, 'genreid' => $genreid, 'hits' => $hits, 'views' => $views, 'play_file' => $play_file, 'tocador' => $tocador));
 
 if ($rating != 0.0000) {
 	$ratesong['rating'] = ""._MD_DEBASER_RATING.": " .$myts->stripSlashesGPC(number_format( $rating, 2));
