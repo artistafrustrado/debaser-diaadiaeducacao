@@ -137,7 +137,7 @@ function mostrarTv(id, link)
 
 <td colspan="1">
 <div align="left" style="float:left;">
-<a href="javascript:mostrarTocador('<{$filelist[i].id}>','<{$filelist[i].link}>','<{$filelist[i].file_type}>');"><img src="<{$xoops_url}>/modules/debaser/images/<{$filelist[i].play_file}>" title="<{$smarty.const._MD_DEBASER_PLAY}>" alt="<{$smarty.const._MD_DEBASER_PLAY}>;" align="absmiddle" /></a>
+<a href="javascript:mostrarTocador('<{$filelist[i].id}>','<{$filelist[i].link_flv}>','<{$filelist[i].file_type}>');"><img src="<{$xoops_url}>/modules/debaser/images/<{$filelist[i].play_file}>" title="<{$smarty.const._MD_DEBASER_PLAY}>" alt="<{$smarty.const._MD_DEBASER_PLAY}>;" align="absmiddle" /></a>
 <strong><a href="singlefile.php?id=<{$filelist[i].id}>"<{if $usetooltips == true}>onmouseover="ddrivetip('<strong><{$filelist[i].title}><br />
 <br>
 
@@ -151,7 +151,7 @@ function mostrarTv(id, link)
 <{$smarty.const._MD_DEBASER_READMORE}>','lightgrey', 200)"; onmouseout="hideddrivetip()"<{/if}>><{$filelist[i].title}></a></strong> (<{$smarty.const._MD_DEBASER_ADDED}> <{$filelist[i].added}>)</div>
 <div align="right">
 
-<div style="float:right; width:120px; height:25px">
+<div style="float:right; width:130px; height:25px">
 <div style="width:65px; float:left; ">
 
 <img src="<{$xoops_url}>/modules/debaser/images/views.gif" title="<{$smarty.const._MD_DEBASER_VIEWS}>" alt="<{$smarty.const._MD_DEBASER_VIEWS}>" align="right" />&nbsp;&nbsp;<strong><{$filelist[i].views}></strong><{if $allowyes == true}>&nbsp;&nbsp;<{if $filelist[i].link != ''}>
