@@ -118,6 +118,7 @@ while ($sqlfetch = $xoopsDB->fetchArray($result)) {
 			  $filelist['link_flv'] = str_replace(strtolower($filelist['fileext']), 'flv', $filelist['link']);
 			} else {
 				$filelist['file_type'] = "audio";
+		    $filelist['link_flv'] = $filelist['link'];
 			}
 
 			$xoopsTpl->append('filelist', $filelist);
@@ -151,10 +152,11 @@ while ($sqlfetch = $xoopsDB->fetchArray($result)) {
 
 		if(in_array(strtolower($filelist['fileext']), $videos))
 		{
-		    $filelist['link_flv'] = str_replace(strtolower($filelist['fileext']), 'flv', $filelist['link']);
+		  $filelist['link_flv'] = str_replace(strtolower($filelist['fileext']), 'flv', $filelist['link']);
 			$filelist['file_type'] = "video";
 		} else {
 			$filelist['file_type'] = "audio";
+		  $filelist['link_flv'] = $filelist['link'];
 		}
 		$xoopsTpl->append('filelist', $filelist);
 

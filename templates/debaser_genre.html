@@ -88,7 +88,7 @@ function mostrarRadio(id, link)
 {
 	var radio = document.getElementById("radio");
 	var audio = document.getElementById("audio");
-  audio.innerHTML = "<object type='application/x-shockwave-flash' data='dewplayer.swf' width='200' height='20'>  <param name='movie' id='obj_param_movie' value='dewplayer.swf?mp3='" + link + " />   <param name='flashvars' id='obj_param_flashvars' value='mp3=" + link + "' />  </object>";
+  audio.innerHTML = "<object type='application/x-shockwave-flash' data='dewplayer.swf' width='200' height='20'>  <param name='movie' id='obj_param_movie' value='dewplayer.swf?mp3=" + link + "' />   <param name='flashvars' id='obj_param_flashvars' value='mp3=" + link + "' />  </object>";
 	radio.style.visibility = "visible";
 }
 
