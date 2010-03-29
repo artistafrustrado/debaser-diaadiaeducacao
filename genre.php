@@ -112,10 +112,13 @@ while ($sqlfetch = $xoopsDB->fetchArray($result)) {
 			$filelist['play_file'] = "play.gif";
 			$filelist['fileext'] = $sqlfetch['fileext'];
 
-			if(in_array(strtolower($filelist['fileext']), $videos))
+      $path_parts = pathinfo($filelist['link']);
+      $file_ext = $path_parts['extension'];
+
+			if(in_array(strtolower($file_ext), $videos))
 			{
 			  $filelist['file_type'] = "video";
-			  $filelist['link_flv'] = str_replace(strtolower($filelist['fileext']), 'flv', $filelist['link']);
+			  $filelist['link_flv'] = str_replace(strtolower($file_ext), 'flv', $filelist['link']);
 			} else {
 				$filelist['file_type'] = "audio";
 		    $filelist['link_flv'] = $filelist['link'];
@@ -148,20 +151,23 @@ while ($sqlfetch = $xoopsDB->fetchArray($result)) {
 		$filelist['hits'] = $sqlfetch['hits'];
 		$filelist['views'] = $sqlfetch['views'];
 		$filelist['play_file'] = "play.gif";
-		$filelist['fileext'] = $sqlfetch['fileext'];
+    $filelist['fileext'] = $sqlfetch['fileext'];
 
-		if(in_array(strtolower($filelist['fileext']), $videos))
-		{
-		  $filelist['link_flv'] = str_replace(strtolower($filelist['fileext']), 'flv', $filelist['link']);
-			$filelist['file_type'] = "video";
-		} else {
-			$filelist['file_type'] = "audio";
-		  $filelist['link_flv'] = $filelist['link'];
-		}
-		$xoopsTpl->append('filelist', $filelist);
+    $path_parts = pathinfo($filelist['link']);
+    $file_ext = $path_parts['extension'];
 
-		$totalarts++;
-	}
+    if(in_array(strtolower($file_ext), $videos))
+    {
+      $filelist['link_flv'] = str_replace(strtolower($file_ext), 'flv', $filelist['link']);
+      $filelist['file_type'] = "video";
+    } else {
+      $filelist['file_type'] = "audio";
+      $filelist['link_flv'] = $filelist['link'];
+    }
+    $xoopsTpl->append('filelist', $filelist);
+
+    $totalarts++;
+  }
 }
 
 if(!isset($letter))
@@ -173,31 +179,31 @@ $category['navbar'] = $pagenav -> renderNav(2);
 
 $xoopsTpl->assign('category', $category);
 
-	if (empty($filelist['id'])) {
-		if(!empty($genrelist))
-			redirect_header('genre.php?genreid='.$genrelist, 1, _MD_DEBASER_NOFILES);
-		else	
-			redirect_header('index.php', 1, _MD_DEBASER_NOFILES);
-	}
+  if (empty($filelist['id'])) {
+    if(!empty($genrelist))
+      redirect_header('genre.php?genreid='.$genrelist, 1, _MD_DEBASER_NOFILES);
+    else	
+      redirect_header('index.php', 1, _MD_DEBASER_NOFILES);
+  }
 else {
-	$xoopsTpl->assign('genrelist', $filelist['genre']);
+  $xoopsTpl->assign('genrelist', $filelist['genre']);
 }
 
 if ($xoopsUser) {
-	$xoopsModule = XoopsModule::getByDirname('debaser');
+  $xoopsModule = XoopsModule::getByDirname('debaser');
 
-	if ( $xoopsUser->isAdmin($xoopsModule->mid()) ) {
-		$xoopsTpl->assign('isxadmin', true);
-	}
+  if ( $xoopsUser->isAdmin($xoopsModule->mid()) ) {
+    $xoopsTpl->assign('isxadmin', true);
+  }
 }
 
 /* determine if downloads are allowed or if download is a link */
 if ($xoopsModuleConfig['debaserallowdown'] == 1) {
-	$xoopsTpl->assign("allowyes", true);
+  $xoopsTpl->assign("allowyes", true);
 }
 
 if ($xoopsModuleConfig['usetooltips'] == 1) {
-	$xoopsTpl->assign("usetooltips", true);
+  $xoopsTpl->assign("usetooltips", true);
 }
 
 include_once XOOPS_ROOT_PATH.'/footer.php';
