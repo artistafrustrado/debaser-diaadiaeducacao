@@ -118,16 +118,13 @@ while ($sqlfetch = $xoopsDB->fetchArray($result)) {
 			if(in_array(strtolower($file_ext), $videos))
 			{
 			  $filelist['file_type'] = "video";
-			  $filelist['link_flv'] = str_replace($file_ext, 'flv', $filelist['link']);
+			  $filelist['link_flv'] = preg_replace("/\.(avi|mpeg|mpg|divx|mp4)$/si", '.flv', trim($filelist['link'])); 
 			} else {
 				$filelist['file_type'] = "audio";
 		    $filelist['link_flv'] = $filelist['link'];
 			}
 
 			$xoopsTpl->append('filelist', $filelist);
-
-
-
 			$totalarts++;
 		}
 	}
@@ -158,7 +155,7 @@ while ($sqlfetch = $xoopsDB->fetchArray($result)) {
 
     if(in_array(strtolower($file_ext), $videos))
     {
-      $filelist['link_flv'] = str_replace($file_ext, 'flv', $filelist['link']);
+			$filelist['link_flv'] = preg_replace("/\.(avi|mpeg|mpg|divx|mp4)$/si", '.flv', trim($filelist['link'])); 
       $filelist['file_type'] = "video";
     } else {
       $filelist['file_type'] = "audio";
