@@ -112,7 +112,7 @@ while ($sqlfetch = $xoopsDB->fetchArray($result)) {
 			$filelist['play_file'] = "play.gif";
 			$filelist['fileext'] = $sqlfetch['fileext'];
 
-      $path_parts = pathinfo($filelist['link']);
+      $path_parts = pathinfo(trim($filelist['link']));
       $file_ext = $path_parts['extension'];
 
 			if(in_array(strtolower($file_ext), $videos))
@@ -150,7 +150,7 @@ while ($sqlfetch = $xoopsDB->fetchArray($result)) {
 		$filelist['play_file'] = "play.gif";
     $filelist['fileext'] = $sqlfetch['fileext'];
 
-    $path_parts = pathinfo($filelist['link']);
+    $path_parts = pathinfo(trim($filelist['link']));
     $file_ext = $path_parts['extension'];
 
     if(in_array(strtolower($file_ext), $videos))
