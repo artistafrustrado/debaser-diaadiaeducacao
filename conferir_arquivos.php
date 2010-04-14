@@ -68,25 +68,43 @@ $videos = array("mpg","mpeg","avi","divx","mp4");
 $resultarts = $xoopsDB-> query($sql2);
 $result = $xoopsDB->query($sql2);
 
-echo "<table id='report'>\n";
-echo "<thead>\n";
-echo "<td>disciplina</td>\n";
-echo "<td>id</td>\n";
-echo "<td>titulo</td>\n";
-echo "<td>link</td>\n";
-echo "<td>tipo</td>\n";
-echo "<td>arquivo</td>\n";
-echo "<td>flv</td>\n";
-echo "</thead>\n";
-echo "<tbody>\n";
+$buffer = "";
+
+if($_GET['tudo'] == 'sim')
+{
+  $showAll = True;
+  $buffer .= '<a href="conferir_arquivos.php">mostrar apenas registros com erro</a><br/><br/>';
+} 
+else
+{
+  $showAll = False;
+  $buffer .= '<a href="conferir_arquivos.php?tudo=sim">mostrar todos os registros</a><br/><br/>';
+}
+
+
+$buffer .= "<table id='report'>\n";
+$buffer .= "<thead>\n";
+$buffer .= "<td>disciplina</td>\n";
+$buffer .= "<td>id</td>\n";
+$buffer .= "<td>titulo</td>\n";
+$buffer .= "<td>link</td>\n";
+$buffer .= "<td>tipo</td>\n";
+$buffer .= "<td>arquivo</td>\n";
+$buffer .= "<td>flv</td>\n";
+$buffer .= "</thead>\n";
+$buffer .= "<tbody>\n";
 
 while ($sqlfetch = $xoopsDB->fetchArray($result)) 
 {
-  echo "<tr>\n"; 
-  echo "<td>{$sqlfetch['genre']}</td>\n";
-  echo "<td>{$sqlfetch['xfid']}</td>\n";
-  echo "<td>{$sqlfetch['title']}</td>\n";
-  echo "<td>{$sqlfetch['link']}</td>\n";
+  $rowBuffer = "";
+  $hasError = False;
+  $isVideo = False;
+
+  $rowBuffer .= "<tr>\n"; 
+  $rowBuffer .= "<td>{$sqlfetch['genre']}</td>\n";
+  $rowBuffer .= "<td>{$sqlfetch['xfid']}</td>\n";
+  $rowBuffer .= "<td>{$sqlfetch['title']}</td>\n";
+  $rowBuffer .= "<td>{$sqlfetch['link']}</td>\n";
 
   $file = str_replace('http://www.diaadia.pr.gov.br','', trim($sqlfetch['link']));
   $file = $_SERVER['DOCUMENT_ROOT'] . $file;
@@ -95,31 +113,49 @@ while ($sqlfetch = $xoopsDB->fetchArray($result))
 
   if(in_array($parts['extension'], $videos))
   {
-    echo "<td>video</td>\n";
+    $rowBuffer .= "<td>video</td>\n";
+    $isVideo = True;
   }
   else
   {
-    echo "<td>audio</td>\n";
+    $rowBuffer .= "<td>audio</td>\n";
   }
   if(is_file($file))
   {
-    echo "<td>OK</td>\n";
+    $rowBuffer .= "<td>OK</td>\n";
   }
   else
   {
-    echo "<td>Arquivo nao encontrado</td>\n";
+    $rowBuffer .= "<td>Arquivo nao encontrado</td>\n";
+    $hasError = True;
   }
   if(is_file($file_flv))
   {
-    echo "<td>FLV OK</td>\n";
+    $rowBuffer .= "<td>FLV OK</td>\n";
   }
   else
   {
-    echo "<td>Arquivo FLV nao encontrado</td>\n";
+    $rowBuffer .= "<td>Arquivo FLV nao encontrado</td>\n";
+    if($isVideo)
+    {
+      $hasError = True;
+    }
   }
-  echo "</tr>\n";  
+  $rowBuffer .= "</tr>\n";  
+
+  if($showAll)
+  {
+    $buffer .= $rowBuffer;
+  }
+  elseif($hasError)
+  {
+    $buffer .= $rowBuffer;
+  }
+
 }
 
-echo "</tbody>\n";
-echo "</table>\n";
+$buffer .= "</tbody>\n";
+$buffer .= "</table>\n";
+
+echo $buffer;
 ?>
