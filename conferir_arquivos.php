@@ -1,5 +1,5 @@
 <?php
-// $Id: genre.php,v 0.80 2004/10/24 10:00:00 frankblack Exp $
+// $Id: conferir_arquivos.php,v 0.2 2010/04/14 10:00:00 artistafrustrado Exp $
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
