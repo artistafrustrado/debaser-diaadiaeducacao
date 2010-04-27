@@ -66,5 +66,8 @@ $adminmenu[13]['title'] = '------->Videos';
 $adminmenu[13]['link'] = "listar/index-videos.php ";
 $adminmenu[31]['icon'] = "images/help.gif";
 
+$adminmenu[32]['title'] = 'Relatorios - Conferencia';
+$adminmenu[32]['link'] = "admin/relatorios.php";
+$adminmenu[32]['icon'] = "images/edit2.gif";
 
 ?>
