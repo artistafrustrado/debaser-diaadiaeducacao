@@ -46,11 +46,7 @@ function construir_tocador_mp3($link)
 function construir_tocador_flv($link)
 {
 	$buffer = "";
-
-	$pathparts = pathinfo($link);
-	$fileext = $pathparts['extension'];
-
-	$link = str_replace(strtolower($fileext), 'flv', $link);
+	$link = preg_replace("/\.(avi|mpeg|mpg|divx|mp4)$/si", '.flv', trim($link));
 
 	$buffer .=  "<div id=\"video\" >Video</div>\n";
 	$buffer .= "<script type=\"text/javascript\">\n";
